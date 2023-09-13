@@ -49,6 +49,7 @@
             "@php artisan key:generate --ansi"
         ],
         "vercel": [
+            "npm install && npm run build"
         ]
     },
     "extra": {
