@@ -49,7 +49,7 @@
             "@php artisan key:generate --ansi"
         ],
         "vercel": [
-          "npm install && mv tailwind.config.js tailwind.config.cjs && mv postcss.config.js postcss.config.cjs && npm run build"
+          "npm install && mv tailwind.config.cjs.vercel tailwind.config.cjs && mv postcss.config.cjs.vercel postcss.config.cjs && npm run build"
         ]
     },
     "extra": {
