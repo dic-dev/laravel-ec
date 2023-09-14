@@ -10,7 +10,7 @@
     "routes": [
         {
             "src": "/build/assets/(.*)",
-            "dest": "/public/build/assets/$1"
+            "dest": "/public/assets/$1"
         },
         {
             "src": "/favicon.ico",
@@ -26,6 +26,7 @@
         }
     ],
     "buildCommand": "npm install && vite build",
+    "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
         "APP_NAME": "Laravel Vercel",
