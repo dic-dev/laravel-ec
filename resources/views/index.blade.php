@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <div>
         <form action="/" method="get">
             <div>商品検索</div>
@@ -66,4 +66,4 @@
         </div>
         {{ $products->appends(Request::all())->links() }}
     </div>
-</x-app-layout>
+</x-guest-layout>

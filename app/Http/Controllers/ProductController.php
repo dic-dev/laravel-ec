@@ -13,9 +13,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::paginate(20);
-        $data = [
-            'products' => $products,
-        ];
+        $data = ['products' => $products];
         return view('index', $data);
     }
 
@@ -24,7 +22,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $product = new Product();
+        $data = ['product' => $product];
+        return view('products.create', $data);
     }
 
     /**
@@ -32,7 +32,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'category_id' => 'required',
+            'maker' => 'required',
+            'name' => 'required',
+            'price' => 'required'
+        ]);
+        $product = new Product();
+        $product->category_id = $request->category_id;
+        $product->maker = $request->maker;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->save();
+
+        return redirect(route('admin.index.'));
     }
 
     /**
