@@ -43,6 +43,7 @@ class ProductController extends Controller
         $product->maker = $request->maker;
         $product->name = $request->name;
         $product->price = $request->price;
+        $product->detail = $request->detail;
         $product->save();
 
         return redirect(route('admin.index.'));
@@ -53,7 +54,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $data = ['product' => $product];
+        return view('products.show', $data);
     }
 
     /**

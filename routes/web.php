@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get('/', [ProductController::class, 'index'])->name('top');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -39,6 +41,9 @@ Route::get('/test-database', function () {
     }
 });
 
-Route::get('/laravel', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
+
+// admin
+Route::get('/admin', [ProductController::class, 'index']);

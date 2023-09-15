@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('maker');
             $table->string('name');
             $table->integer('price');
+            $table->string('detail');
             $table->timestamps();
 
             $table->foreign('category_id')
