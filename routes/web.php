@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProductController::class, 'index'])->name('top');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -37,4 +37,8 @@ Route::get('/test-database', function () {
     } catch (\Exception $e) {
         die("Could not connect to the database.  Please check your configuration. Error:" . $e );
     }
+});
+
+Route::get('/laravel', function () {
+    return view('welcome');
 });
