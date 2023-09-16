@@ -4,39 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Facades\Filter;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(ProductRequest $request)
     {
-        [
-            $keyword_arr,
-            $category_id,
-            $price_arr,
-            $sort_arr
-        ] = Filter::format($request->query());
+        $keyword = !is_null($request->query('keyword')) ? $request->query('keyword') : '';
+        $category_id = !is_null($request->query('category_id')) ? $request->query('category_id') : '';
+        $min_price = !is_null($request->query('min_price')) ? $request->query('min_price') : '';
+        $max_price = !is_null($request->query('max_price')) ? $request->query('max_price') : '';
+        $sort = !is_null($request->query('sort')) ? $request->query('sort') : '';
+        $params = [$keyword, $category_id, $min_price, $max_price, $sort];
 
-        $products = Product::where('category_id', 'like', $category_id)
-            ->where(function ($q) use ($keyword_arr) {
-                foreach ($keyword_arr as $keyword) {
-                    $q->where(function ($Q) use ($keyword) {
-                        $Q->where('name', 'like', $keyword);
-                        $Q->orWhere('detail', 'like', $keyword);
-                    });
-                }
-            })
-            ->where(function ($q) use ($price_arr) {
-                foreach ($price_arr as $value) {
-                    $q->where('price', $value[0], $value[1]);
-                }
-            })
-            ->orderBy($sort_arr[0], $sort_arr[1])
-            ->paginate(20);
-        /* $products = Product::paginate(20); */
+        $product = new Product;
+        $products = $product->filter($params);
         $data = ['products' => $products];
 
         return view('index', $data);
