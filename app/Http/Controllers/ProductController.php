@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Facades\Filter;
 
 class ProductController extends Controller
 {
@@ -12,8 +13,32 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::paginate(20);
+        [
+            $keyword_arr,
+            $category_id,
+            $price_arr,
+            $sort_arr
+        ] = Filter::format($request->query());
+
+        $products = Product::where('category_id', 'like', $category_id)
+            ->where(function ($q) use ($keyword_arr) {
+                foreach ($keyword_arr as $keyword) {
+                    $q->where(function ($Q) use ($keyword) {
+                        $Q->where('name', 'like', $keyword);
+                        $Q->orWhere('detail', 'like', $keyword);
+                    });
+                }
+            })
+            ->where(function ($q) use ($price_arr) {
+                foreach ($price_arr as $value) {
+                    $q->where('price', $value[0], $value[1]);
+                }
+            })
+            ->orderBy($sort_arr[0], $sort_arr[1])
+            ->paginate(20);
+        /* $products = Product::paginate(20); */
         $data = ['products' => $products];
+
         return view('index', $data);
     }
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -32,18 +33,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/test-database', function () {
-    try {
-        DB::connection()->getPdo();
-        print_r("Connected successfully to: " . DB::connection()->getDatabaseName());
-    } catch (\Exception $e) {
-        die("Could not connect to the database.  Please check your configuration. Error:" . $e );
-    }
-});
-
 Route::get('/welcome', function () {
     return view('welcome');
 });
 
 // admin
 Route::get('/admin', [ProductController::class, 'index']);
+
+// test
+Route::get('test', [TestController::class, 'test']);
+Route::get('test-database', [TestController::class, 'database']);
+Route::get('test-filter', [TestController::class, 'filter']);
