@@ -23,6 +23,10 @@
         {
             "src": "/(.*)",
             "dest": "/api/index.php"
+        },
+        {
+            "src": "/storage/(.*)",
+            "dest": "/storage/app/public/$1"
         }
     ],
     "buildCommand": "npm install && npm run build",
