@@ -26,7 +26,7 @@
         },
         {
             "src": "/storage/(.*)",
-            "dest": "/public/storage"
+            "dest": "/storage/app/public/$1"
         },
         {
             "src": "/(.*)",
