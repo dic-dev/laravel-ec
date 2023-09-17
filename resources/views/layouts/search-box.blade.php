@@ -1,7 +1,7 @@
 <!-- search -->
 <div :class="{'block': search, 'hidden': ! search}">
     <!-- Responsive Search Box -->
-    <div class="py-6 border-t border-b border-gray-200">
+    <div class="py-6 border-t border-gray-200">
         <div class="flex justify-center items-center">
             <form action="/" method="get" class="mt-3 space-y-1 flex flex-col">
                 <ul>

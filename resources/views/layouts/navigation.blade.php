@@ -1,4 +1,4 @@
-<nav x-data="{ open: false, search: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false, search: false }" class="bg-white border-b border-gray-200">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -19,7 +19,7 @@
             </div>
             <div class="flex">
                 <div class="flex space-x-8 -my-px ml-10">
-                    <x-nav-link :href="route('dashboard')">
+                    <x-nav-link :href="route('carts.show')">
                         {{ __('Cart') }}
                     </x-nav-link>
                     <button @click="search = ! search" :class="search

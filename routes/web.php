@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +21,16 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', [ProductController::class, 'index'])->name('top');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('/cart', [CartController::class, 'show'])->name('carts.show');
+Route::post('/carts/store', [CartController::class, 'store'])->name('carts.store');
+Route::post('/carts/update', [CartController::class, 'update'])->name('carts.update');
+Route::post('/carts/delete', [CartController::class, 'delete'])->name('carts.delete');
+Route::post('/carts/destroy', [CartController::class, 'destroy'])->name('carts.destroy');
+
+Route::get('/cart/confirm', function () {
+    return view('carts.confirm');
+})->name('carts.confirm');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -44,4 +54,3 @@ Route::get('/admin', [ProductController::class, 'index']);
 // test
 Route::get('test', [TestController::class, 'test']);
 Route::get('test-database', [TestController::class, 'database']);
-Route::get('test-filter', [TestController::class, 'filter']);
