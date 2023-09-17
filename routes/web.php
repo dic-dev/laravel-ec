@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,7 @@ Route::get('/admin', [ProductController::class, 'index']);
 Route::get('test', [TestController::class, 'test']);
 Route::get('test-database', [TestController::class, 'database']);
 Route::get('test-filter', [TestController::class, 'filter']);
+
+Route::get('/storage', function () {
+    Artisan::call('storage:link');
+});
