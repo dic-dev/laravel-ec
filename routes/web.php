@@ -45,7 +45,3 @@ Route::get('/admin', [ProductController::class, 'index']);
 Route::get('test', [TestController::class, 'test']);
 Route::get('test-database', [TestController::class, 'database']);
 Route::get('test-filter', [TestController::class, 'filter']);
-
-Route::get('/storage', function () {
-    Artisan::call('storage:link');
-});
