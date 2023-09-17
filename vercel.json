@@ -21,6 +21,10 @@
             "dest": "/public/robots.txt"
         },
         {
+            "src": "/fishing.png",
+            "dest": "/public/fishing.png"
+        },
+        {
             "src": "/(.*)",
             "dest": "/api/index.php"
         }
