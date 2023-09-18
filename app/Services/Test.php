@@ -14,8 +14,8 @@ class Test
 {
     public function test()
     {
-        $carts = Cart::with('product');
-
-        dd($carts->get()[0]->product->name);
+        $cart = new Cart();
+        $sum_price = $cart->sumPrice('1');
+        dd($sum_price);
     }
 }

@@ -33,17 +33,8 @@ class CartController extends Controller
         $product_id = $request->product_id;
         $num = $request->num;
 
-        $data = Cart::where('user_id', $user_id)
-            ->where('product_id', $product_id)
-            ->first();
-
-        $old_num = !is_null($data) ? $data->num : 0;
-        $new_num = $old_num + $num;
-
-        Cart::updateOrCreate(
-            ['user_id' => $user_id, 'product_id' => $product_id],
-            ['num' => $new_num]
-        );
+        $cart = new Cart();
+        $cart->addItem($user_id, $product_id, $num);
 
         return redirect()->route('carts.show');
     }
@@ -57,7 +48,14 @@ class CartController extends Controller
         $carts = Cart::with('product')
             ->where('user_id', $user_id)
             ->get();
-        $data = ['carts' => $carts];
+
+        $cart = new Cart();
+        $sum_price = $cart->sumPrice($user_id);
+
+        $data = [
+            'carts' => $carts,
+            'sum_price' => $sum_price
+        ];
 
         return view('carts.show', $data);
     }
@@ -78,13 +76,10 @@ class CartController extends Controller
         $id = $request->id;
         $num = $request->num;
 
-        if ($request->has('update') & $num !== 0) {
-            Cart::updateOrCreate(
-                ['id' => $id],
-                ['num' => $num]
-            );
+        if ($num !== 0) {
+            Cart::where('id', $id)
+                ->update(['num' => $num]);
         } else {
-            $id = $request->id;
             Cart::destroy($id);
         }
 
@@ -99,7 +94,7 @@ class CartController extends Controller
         $id = $request->id;
         Cart::destroy($id);
 
-        return view('carts.show');
+        return redirect()->route('carts.show');
     }
 
     /**
