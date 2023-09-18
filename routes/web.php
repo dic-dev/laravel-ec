@@ -49,7 +49,19 @@ Route::get('/welcome', function () {
 });
 
 // admin
-Route::get('/admin', [ProductController::class, 'index']);
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->middleware(['auth:admin', 'verified'])->name('dashboard');
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
+
+    require __DIR__.'/admin.php';
+});
 
 // test
 Route::get('test', [TestController::class, 'test']);
