@@ -18,6 +18,12 @@ class UserSeeder extends Seeder
             'name' => '田中 太郎',
             'email' => 'user1@test.com',
             'password' => Hash::make('11111111'), // Hashファサードで暗号化
+            'postal_code' => '2222222',
+            'pref_id' => '3',
+            'city' => '田中市',
+            'address1' => '太郎町1-3',
+            'address2' => 'おんぼろマンション101',
+            'tel' => '44444444444',
             'created_at' => '2023/01/01 11:11:11'
         ]);
     }

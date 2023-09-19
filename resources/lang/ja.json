@@ -1,0 +1,14 @@
+{
+  "login": "ログイン",
+  "logout": "ログアウト",
+  "Name": "お名前",
+  "Email": "メールアドレス",
+  "Password": "パスワード",
+  "Confirm Password": "パスワード（確認）",
+  "Postal Code": "郵便番号",
+  "Prefecture": "都道府県",
+  "City": "市区町村",
+  "Address Line 1": "字名・番地",
+  "Address Line 2": "建物等",
+  "Tel": "電話番号"
+}
