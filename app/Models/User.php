@@ -48,4 +48,53 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function formatParams($params)
+    {
+        [
+            $id,
+            $keyword,
+            $sort
+        ] = $params;
+
+        $str = '%' . preg_replace('/　|\s+/', '% %', $keyword) . '%';
+        $keyword_arr = preg_split('/[\s]/', $str, -1, PREG_SPLIT_NO_EMPTY);
+
+        if ($sort !== '') {
+            $sort_arr = ($sort === 'price_asc' | $sort === 'price_desc')
+                ? explode('_', $sort)
+                : ['created_at', 'asc'];
+        } else {
+            $sort_arr = ['created_at', 'asc'];
+        }
+
+        return [$id, $keyword_arr, $sort_arr];
+    }
+
+    public function filter($params)
+    {
+        [
+            $id,
+            $keyword_arr,
+            $sort_arr
+        ] = $this->formatParams($params);
+
+        $users = User::where(function ($q) use ($id) {
+            if ($id !== '') {
+                $q->where('id', $id);
+            }
+        })
+            ->where(function ($q) use ($keyword_arr) {
+                foreach ($keyword_arr as $keyword) {
+                    $q->where(function ($Q) use ($keyword) {
+                        $Q->where('name', 'like', $keyword);
+                        $Q->orWhere('email', 'like', $keyword);
+                    });
+                }
+            })
+            ->orderBy($sort_arr[0], $sort_arr[1])
+            ->paginate(20);
+
+        return $users;
+    }
 }

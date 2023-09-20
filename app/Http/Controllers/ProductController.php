@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -21,15 +22,15 @@ class ProductController extends Controller
         $sort = !is_null($request->query('sort')) ? $request->query('sort') : '';
         $params = [$keyword, $category_id, $min_price, $max_price, $sort];
 
-        $product = new Product;
+        $product = new Product();
         $products = $product->filter($params);
         $data = ['products' => $products];
 
-        if (Auth::guard('admin')->check()) {
+        if ($request->is('admin/*')) {
             return view('admin.products.index', $data);
         }
 
-        return view('index', $data);
+        return view('products.index', $data);
     }
 
     /**
@@ -39,7 +40,8 @@ class ProductController extends Controller
     {
         $product = new Product();
         $data = ['product' => $product];
-        return view('products.create', $data);
+
+        return view('admin.products.create', $data);
     }
 
     /**
@@ -47,21 +49,22 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         $this->validate($request, [
             'category_id' => 'required',
-            'maker' => 'required',
+            'maker_id' => 'required',
             'name' => 'required',
             'price' => 'required'
         ]);
         $product = new Product();
         $product->category_id = $request->category_id;
-        $product->maker = $request->maker;
+        $product->maker_id = $request->maker_id;
         $product->name = $request->name;
         $product->price = $request->price;
         $product->detail = $request->detail;
         $product->save();
 
-        return redirect(route('admin.index.'));
+        return redirect(route('admin.products.index'));
     }
 
     /**
@@ -93,9 +96,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $id = $request->product_id;
+        $id = $product->id;
         $name = $request->name;
         $category_id = $request->category_id;
         $maker_id = $request->maker_id;
@@ -112,16 +115,17 @@ class ProductController extends Controller
             ]);
 
         $product = Product::find($id);
+        $data = ['product' => $product];
 
-        return redirect()->route('admin.products.edit', $product);
+        return redirect()->route('admin.products.edit', $data);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Product $product)
     {
-        $id = $request->id;
+        $id = $product->id;
         Product::destroy($id);
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,14 +64,33 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 
         Route::get('/products', [ProductController::class, 'index'])
             ->name('products.index');
+        Route::get('/products/create', [ProductController::class, 'create'])
+            ->name('products.create');
+        Route::post('products/store', [ProductController::class, 'store'])
+            ->name('products.store');
         Route::get('/products/{product}', [ProductController::class, 'show'])
             ->name('products.show');
         Route::get('/products/edit/{product}', [ProductController::class, 'edit'])
             ->name('products.edit');
-        Route::post('/products/update', [ProductController::class, 'update'])
+        Route::post('/products/update/{product}', [ProductController::class, 'update'])
             ->name('products.update');
-        Route::post('/products/destroy', [ProductController::class, 'destroy'])
+        Route::post('/products/destroy/{product}', [ProductController::class, 'destroy'])
             ->name('products.destroy');
+
+        Route::get('/users', [UserController::class, 'index'])
+            ->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])
+            ->name('users.create');
+        Route::post('users/store', [UserController::class, 'store'])
+            ->name('users.store');
+        Route::get('/users/{user}', [UserController::class, 'show'])
+            ->name('users.show');
+        Route::post('/users/update/{user}', [UserController::class, 'update'])
+            ->name('users.update');
+        Route::get('/users/edit/{user}', [UserController::class, 'edit'])
+            ->name('users.edit');
+        Route::post('/users/destroy/{user}', [UserController::class, 'destroy'])
+            ->name('users.destroy');
     });
 });
 

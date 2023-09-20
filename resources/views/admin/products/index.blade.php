@@ -1,6 +1,7 @@
 <x-admin-layout>
     <div>
         <div>
+            <a href="{{ route('admin.products.create') }}">商品を追加</a>
             <table>
                 <thead>
                     <tr>

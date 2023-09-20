@@ -25,10 +25,10 @@ return new class extends Migration
                 ->on('categories')
                 ->onDelete('cascade');
 
-            /* $table->foreign('maker_id') */
-            /*     ->references('id') */
-            /*     ->on('makers') */
-            /*     ->onDelete('cascade'); */
+            $table->foreign('maker_id')
+                ->references('id')
+                ->on('makers')
+                ->onDelete('cascade');
         });
     }
 

@@ -26,5 +26,44 @@ class UserSeeder extends Seeder
             'tel' => '44444444444',
             'created_at' => '2023/01/01 11:11:11'
         ]);
+        $params = [
+            [
+                'name' => '山田 太郎',
+                'email' => 'user2@test.com',
+                'password' => Hash::make('22222222'), // Hashファサードで暗号化
+                'postal_code' => '2222222',
+                'pref_id' => '3',
+                'city' => '山田市',
+                'address1' => '太郎町1-3',
+                'address2' => 'おんぼろマンション202',
+                'tel' => '44444444444',
+                'created_at' => '2023/01/01 11:11:11'
+            ],
+            [
+                'name' => '山本 太郎',
+                'email' => 'user3@test.com',
+                'password' => Hash::make('33333333'), // Hashファサードで暗号化
+                'postal_code' => '2222222',
+                'pref_id' => '3',
+                'city' => '山本市',
+                'address1' => '太郎町1-3',
+                'address2' => 'おんぼろマンション303',
+                'tel' => '44444444444',
+                'created_at' => '2023/01/01 11:11:11'
+            ],
+            [
+                'name' => '山下 太郎',
+                'email' => 'user4@test.com',
+                'password' => Hash::make('44444444'), // Hashファサードで暗号化
+                'postal_code' => '2222222',
+                'pref_id' => '3',
+                'city' => '山下市',
+                'address1' => '太郎町1-3',
+                'address2' => 'おんぼろマンション404',
+                'tel' => '44444444444',
+                'created_at' => '2023/01/01 11:11:11'
+            ],
+        ];
+        DB::table('users')->insert($params);
     }
 }

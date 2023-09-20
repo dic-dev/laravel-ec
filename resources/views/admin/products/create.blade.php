@@ -3,16 +3,18 @@
         class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100"
     >
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <h3>サンプル</h3>
             <img src="{{ asset('images/fishing.png') }}" alt="image" />
             <dl>
-                <dt>{{ $product->name }}</dt>
-                <dd>{{ $product->category->name }}</dd>
-                <dd>{{ $product->price }}</dd>
-                <dd>{{ $product->detail }}</dd>
+                <dt>商品名</dt>
+                <dd>カテゴリ</dd>
+                <dd>メーカー</dd>
+                <dd>値段</dd>
+                <dd>商品詳細</dd>
             </dl>
         </div>
 
-        <form id="product_edit" method="POST" action="{{ route('admin.products.update', $product) }}" class="w-full sm:max-w-md">
+        <form id="product_edit" method="POST" action="{{ route('admin.products.store') }}" class="w-full sm:max-w-md">
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 @csrf
 
