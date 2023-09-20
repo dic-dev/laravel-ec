@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -23,6 +24,10 @@ class ProductController extends Controller
         $product = new Product;
         $products = $product->filter($params);
         $data = ['products' => $products];
+
+        if (Auth::guard('admin')->check()) {
+            return view('admin.products.index', $data);
+        }
 
         return view('index', $data);
     }
@@ -62,9 +67,14 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Request $request, Product $product)
     {
         $data = ['product' => $product];
+
+        if ($request->is('admin/*')) {
+            return view('admin.products.show', $data);
+        }
+
         return view('products.show', $data);
     }
 
@@ -73,22 +83,45 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $data = ['product' => $product];
+
+        if (Auth::guard('admin')->check()) {
+            return view('admin.products.edit', $data);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request)
     {
-        //
+        $id = $request->product_id;
+        $name = $request->name;
+        $category_id = $request->category_id;
+        $maker_id = $request->maker_id;
+        $price = $request->price;
+        $detail = $request->detail;
+
+        Product::where('id', $id)
+            ->update([
+                'name' => $name,
+                'category_id' => $category_id,
+                'maker_id' => $maker_id,
+                'price' => $price,
+                'detail' => $detail
+            ]);
+
+        $product = Product::find($id);
+
+        return redirect()->route('admin.products.edit', $product);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        Product::destroy($id);
     }
 }

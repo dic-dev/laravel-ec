@@ -51,7 +51,7 @@
             <x-input-label for="pref_id" :value="__('Prefecture')" />
             <select id="pref_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" name="pref_id" required autocomplete="address-level1">
                 @foreach (App\Models\Prefecture::all() as $prefecture)
-                <option value="{{ $prefecture->id }}" {{ old('pref_id') == $prefecture->id ? ' selected' : ''}}>{{ $prefecture->name }}</option>
+                <option value="{{ $prefecture->id }}" {{ old('pref_id') == $prefecture->id ? ' selected' : '' }}>{{ $prefecture->name }}</option>
                 @endforeach
             </select>
             <x-input-error :messages="$errors->get('pref_id')" class="mt-2" />

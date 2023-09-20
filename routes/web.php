@@ -51,17 +51,28 @@ Route::get('/welcome', function () {
 
 // admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::get('/', [ProductController::class, 'index']);
+    require __DIR__.'/admin.php';
+
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->middleware(['auth:admin', 'verified'])->name('dashboard');
+
     Route::middleware('auth:admin')->group(function () {
         Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [AdminProfileController::class, 'destroy'])->name('profile.destroy');
-    });
 
-    require __DIR__.'/admin.php';
+        Route::get('/products', [ProductController::class, 'index'])
+            ->name('products.index');
+        Route::get('/products/{product}', [ProductController::class, 'show'])
+            ->name('products.show');
+        Route::get('/products/edit/{product}', [ProductController::class, 'edit'])
+            ->name('products.edit');
+        Route::post('/products/update', [ProductController::class, 'update'])
+            ->name('products.update');
+        Route::post('/products/destroy', [ProductController::class, 'destroy'])
+            ->name('products.destroy');
+    });
 });
 
 // test

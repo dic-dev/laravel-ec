@@ -4,25 +4,29 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Category;
+use App\Models\Maker;
 
-class CategorySeeder extends Seeder
+class MakerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Category::create([
+        Maker::create([
             'name' => 'その他',
-            'created_at' => '2023/01/01 11:11:11'
-        ]);
-        Category::create([
-            'name' => 'ロッド',
             'created_at' => '2024/01/01 11:11:11'
         ]);
-        Category::create([
-            'name' => 'ルアー',
+        Maker::create([
+            'name' => 'シマダ',
+            'created_at' => '2024/01/01 11:11:11'
+        ]);
+        Maker::create([
+            'name' => 'タイワ',
+            'created_at' => '2023/01/01 11:11:11'
+        ]);
+        Maker::create([
+            'name' => 'かまかつ',
             'created_at' => '2023/01/01 11:11:11'
         ]);
     }
