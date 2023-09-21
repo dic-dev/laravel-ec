@@ -60,11 +60,29 @@
     <script>
         const stripe_public_key = "{{ config('stripe.stripe_public_key') }}";
         const stripe = Stripe(stripe_public_key);
+        console.log(stripe_public_key);
 
         const elements = stripe.elements();
         const cardElement = elements.create('card');
 
         cardElement.mount('#card-element');
+
+        const cardHolderName = document.getElementById('card-holder-name');
+        const cardButton = document.getElementById('card-button');
+
+        cardButton.addEventListener('click', async (e) => {
+            const { paymentMethod, error } = await stripe.createPaymentMethod(
+                'card', cardElement, {
+                    billing_details: { name: cardHolderName.value }
+                }
+            );
+
+            if (error) {
+                // Display "error.message" to the user...
+            } else {
+                // The card has been verified successfully...
+            }
+        });
     </script>
 
 </x-app-layout>
