@@ -16,7 +16,6 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@stripe/stripe-js": "^2.1.6",
         "flowbite": "^1.8.1"
     }
 }
