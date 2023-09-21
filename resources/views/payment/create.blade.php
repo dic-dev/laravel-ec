@@ -60,7 +60,7 @@
     <script>
         const stripe_public_key = "{{ config('stripe.stripe_public_key') }}";
         const stripe = Stripe(stripe_public_key);
-        console.log(stripe_public_key);
+        console.log(stripe);
 
         const elements = stripe.elements();
         const cardElement = elements.create('card');
