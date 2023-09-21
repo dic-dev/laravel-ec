@@ -47,6 +47,54 @@
             @endif
         </div>
 
+        <!-- Postal Code -->
+        <div>
+            <x-input-label for="postal_code" :value="__('郵便番号')" />
+            <x-text-input id="postal_code" class="block mt-1 w-full" type="text" name="postal_code" :value="old('postal_code', $user->postal_code)" required autofocus />
+            <x-input-error :messages="$errors->get('postal_code')" class="mt-2" />
+        </div>
+
+        <!-- Prefecture -->
+        <div class="mt-4">
+            <x-input-label for="pref_id" :value="__('都道府県')" />
+            <select name="pref_id" required
+                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+            >
+                @foreach (App\Models\Prefecture::all() as $prefecture)
+                <option value="{{ $prefecture->id }}" {{ old('pref_id', $user->pref_id) == $prefecture->id ? ' selected' : ''}}>{{ $prefecture->name }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('pref_id')" class="mt-2" />
+        </div>
+
+        <!-- City -->
+        <div>
+            <x-input-label for="city" :value="__('市区町村')" />
+            <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" :value="old('city', $user->city)" required autofocus />
+            <x-input-error :messages="$errors->get('city')" class="mt-2" />
+        </div>
+
+        <!-- Address1 -->
+        <div>
+            <x-input-label for="address1" :value="__('字名・番地')" />
+            <x-text-input id="address1" class="block mt-1 w-full" type="text" name="address1" :value="old('address1', $user->address1)" required autofocus />
+            <x-input-error :messages="$errors->get('address1')" class="mt-2" />
+        </div>
+
+        <!-- Address2 -->
+        <div>
+            <x-input-label for="address2" :value="__('建物等')" />
+            <x-text-input id="address2" class="block mt-1 w-full" type="text" name="address2" :value="old('address2', $user->address2)" required autofocus />
+            <x-input-error :messages="$errors->get('address2')" class="mt-2" />
+        </div>
+
+        <!-- Tel -->
+        <div>
+            <x-input-label for="tel" :value="__('電話番号')" />
+            <x-text-input id="tel" class="block mt-1 w-full" type="text" name="tel" :value="old('tel', $user->tel)" required autofocus />
+            <x-input-error :messages="$errors->get('tel')" class="mt-2" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

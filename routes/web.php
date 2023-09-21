@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,9 +30,14 @@ Route::post('/carts/update', [CartController::class, 'update'])->name('carts.upd
 Route::post('/carts/delete', [CartController::class, 'delete'])->name('carts.delete');
 Route::post('/carts/destroy', [CartController::class, 'destroy'])->name('carts.destroy');
 
-Route::get('/cart/confirm', function () {
-    return view('carts.confirm');
-})->name('carts.confirm');
+Route::prefix('payment')->name('payment.')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/create', [PaymentController::class, 'create'])
+            ->name('create');
+        Route::post('/store', [PaymentController::class, 'store'])
+            ->name('store');
+    });
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

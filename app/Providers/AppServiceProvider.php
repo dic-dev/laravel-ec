@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        /* Cashier::ignoreMigrations(); */
     }
 
     /**
@@ -21,11 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-      if (App::environment('production','staging')) {
-          URL::forceScheme('https');
-      }
-      if (request()->is('admin/*')) {
-          config(['session.cookie' => config('session.cookie_admin')]);
-      }
+        if (App::environment('production','staging')) {
+            URL::forceScheme('https');
+        }
+        if (request()->is('admin/*')) {
+            config(['session.cookie' => config('session.cookie_admin')]);
+        }
+        /* Cashier::useCustomerModel(User::class); */
+        Cashier::calculateTaxes();
     }
 }

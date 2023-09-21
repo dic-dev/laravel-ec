@@ -11,6 +11,11 @@
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>
+                <ul class="p-6 text-gray-900">
+                    <li><a href="{{ route('products.index') }}">商品一覧</a></li>
+                    <li><a href="{{ route('profile.edit') }}">会員情報の変更</a></li>
+                    <li><a href="#">お問い合わせ</a></li>
+                </ul>
             </div>
         </div>
     </div>

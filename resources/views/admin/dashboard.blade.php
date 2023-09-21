@@ -11,6 +11,12 @@
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>
+                <ul class="p-6 text-gray-900">
+                    <li><a href="{{ route('admin.products.index') }}">商品一覧</a></li>
+                    <li><a href="{{ route('admin.users.index') }}">ユーザー一覧</a></li>
+                    <li><a href="#">注文一覧</a></li>
+                    <li><a href="#">お問い合わせ一覧</a></li>
+                </ul>
             </div>
         </div>
     </div>
