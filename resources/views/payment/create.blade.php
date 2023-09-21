@@ -55,17 +55,5 @@
         </button>
     </div>
 
-    <script src="https://js.stripe.com/v3/"></script>
-
-    <script>
-        const stripe_public_key = "{{ config('stripe.stripe_public_key') }}";
-        const stripe = Stripe(stripe_public_key);
-        console.log(stripe);
-
-        const elements = stripe.elements();
-        const cardElement = elements.create('card');
-
-        cardElement.mount('#card-element');
-    </script>
 
 </x-app-layout>
