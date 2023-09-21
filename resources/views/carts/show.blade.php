@@ -58,8 +58,8 @@
 
         <div class="flex justify-between w-full sm:max-w-2xl">
             <x-primary-button onclick="history.back()" class="sm:max-w-md mt-6 px-6 py-4">前の画面に戻る</x-primary-button>
-            <form action="{{ route('carts.confirm') }}">
-                <x-primary-button class="sm:max-w-md mt-6 px-6 py-4">購入する</x-primary-button>
+            <form action="{{ route('payment.create') }}">
+                <x-primary-button class="sm:max-w-md mt-6 px-6 py-4">支払い画面へ</x-primary-button>
             </form>
         </div>
     </div>
