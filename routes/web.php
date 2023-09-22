@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,11 +33,19 @@ Route::post('/carts/destroy', [CartController::class, 'destroy'])->name('carts.d
 
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::middleware('auth')->group(function () {
+        Route::get('/', [PaymentController::class, 'checkout'])
+            ->name('checkout');
+        Route::post('/pay', [PaymentController::class, 'pay'])
+            ->name('pay');
         Route::get('/create', [PaymentController::class, 'create'])
             ->name('create');
         Route::post('/store', [PaymentController::class, 'store'])
             ->name('store');
     });
+});
+
+Route::get('/billing-portal', function (\Illuminate\Http\Request $request) {
+    return $request->user()->redirectToBillingPortal();
 });
 
 Route::get('/dashboard', function () {
