@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Bill extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['bill_id', 'user_id', 'product_id', 'num'];
+    protected $fillable = ['user_id', 'payment_id', 'amount', 'shipping'];
+    protected $casts = ['shipping' => 'json'];
 }

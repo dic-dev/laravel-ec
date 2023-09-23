@@ -35,25 +35,22 @@
         </div>
 
         <div class="w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg flex flex-col gap-4">
-            <div class="flex justify-between w-full sm:max-w-2xl">
-                <h3 class="sm:max-w-md text-xl">お支払い方法を入力</h3>
-            </div>
-            <div id="card-element"></div>
+            <form id="payment-form" class="flex flex-col gap-4">
+                <h3>お届け先</h3>
+                <div id="address-element"></div>
+
+                <h3>お支払い方法</h3>
+                <div id="payment-element"></div>
+
+                <div class="flex justify-end w-full sm:max-w-2xl">
+                    <x-primary-button submit="submit" id="payment-button" data-secret="{{ $intent->client_secret }}" class="sm:max-w-md mt-6 px-6 py-4">支払う</x-primary-button>
+                </div>
+            </form>
         </div>
 
-        <div class="flex justify-between w-full sm:max-w-2xl">
+        <div class="flex justify-start w-full sm:max-w-2xl">
             <x-primary-button onclick="history.back()" class="sm:max-w-md mt-6 px-6 py-4">前の画面に戻る</x-primary-button>
-            <x-primary-button id="card-button" data-secret="{{ $intent->client_secret }}" class="sm:max-w-md mt-6 px-6 py-4">支払う</x-primary-button>
         </div>
-
-        <input id="card-holder-name" type="text" placeholder="カード名義人">
-
-        <!-- Stripe Elements Placeholder -->
-        <div id="card-element"></div>
-
-        <button id="card-button" data-secret="{{ $intent->client_secret }}">
-            登録
-        </button>
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
@@ -61,41 +58,39 @@
     <script>
         const stripe_public_key = "{{ config('stripe.stripe_public_key') }}";
         const stripe = Stripe(stripe_public_key);
-        const cardHolderName = document.getElementById('card-holder-name');
-        const cardButton = document.getElementById('card-button');
-        const clientSecret = cardButton.dataset.secret;
+        const paymentButton = document.getElementById('payment-button');
+        const clientSecret = paymentButton.dataset.secret;
 
-        const options = {
-            clientSecret,
-            appearance: {
-                theme: 'stripe'
-            },
-        };
+        const appearance = { theme: 'stripe' };
+        const options = { mode: 'shipping' };
 
-        const elements = stripe.elements(options);
-        const cardElement = elements.create('payment', {
-          layout: {
-            type: 'accordion',
-            defaultCollapsed: false,
-            radios: true,
-            spacedAccordionItems: false
-          }
-        });
+        const elements = stripe.elements({clientSecret, appearance});
+        const addressElement = elements.create('address', options);
+        const paymentElement = elements.create('payment');
 
-        cardElement.mount('#card-element');
+        addressElement.mount('#address-element');
+        paymentElement.mount('#payment-element');
 
-        cardButton.addEventListener('click', async (e) => {
-            const { paymentMethod, error } = await stripe.createPaymentMethod(
-                'card', cardElement, {
-                    billing_details: { name: cardHolderName.value }
-                }
-            );
+        const form = document.getElementById('payment-form');
 
-            if (error) {
-                // Display "error.message" to the user...
-            } else {
-                // The card has been verified successfully...
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          const {error} = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+              return_url: '{{ config('app.url') }}',
             }
+          });
+
+          if (error) {
+            // Show error to your customer (for example, payment details incomplete)
+            console.log(error.message);
+          } else {
+            // Your customer will be redirected to your `return_url`. For some payment
+            // methods like iDEAL, your customer will be redirected to an intermediate
+            // site first to authorize the payment, then redirected to the `return_url`.
+          }
         });
     </script>
 
