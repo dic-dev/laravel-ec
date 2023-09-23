@@ -19,14 +19,17 @@ class PaymentController extends Controller
         $cart = new Cart();
         $sum_price = $cart->sumPrice($user_id);
 
-        $products = Cart::with('product')
-            ->select('product_id', 'num')
-            ->where('user_id', $user_id)
-            ->get();
+        $products = [];
+        foreach ($carts as $cart) {
+            array_push($products, [
+                'product_id' => $cart->product->id,
+                'num' => $cart->num
+            ]);
+        }
 
         $metadata = [
             'user_id' => $user_id,
-            'products' => $products
+            'products' => json_encode($products)
         ];
 
         $stripe = new StripeClient(config('stripe.stripe_secret_key'));
