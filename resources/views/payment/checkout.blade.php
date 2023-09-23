@@ -35,7 +35,7 @@
         </div>
 
         <div class="w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg flex flex-col gap-4">
-            <form id="payment-form" class="flex flex-col gap-4">
+            <form method="post" id="payment-form" class="flex flex-col gap-4">
                 <h3>お届け先</h3>
                 <div id="address-element"></div>
 
@@ -43,7 +43,7 @@
                 <div id="payment-element"></div>
 
                 <div class="flex justify-end w-full sm:max-w-2xl">
-                    <x-primary-button submit="submit" id="payment-button" data-secret="{{ $intent->client_secret }}" class="sm:max-w-md mt-6 px-6 py-4">支払う</x-primary-button>
+                    <x-primary-button type="button" id="payment-button" data-secret="{{ $intent->client_secret }}" class="sm:max-w-md mt-6 px-6 py-4">支払う</x-primary-button>
                 </div>
             </form>
         </div>
@@ -73,24 +73,34 @@
 
         const form = document.getElementById('payment-form');
 
-        form.addEventListener('submit', async (event) => {
-          event.preventDefault();
+        form.addEventListener('click', async (event) => {
+            event.preventDefault();
 
-          const {error} = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-              return_url: '{{ config('app.url') }}',
+            const {error} = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: '{{ route('payment.success') }}',
+                }
+            });
+
+            if (error) {
+                // Show error to your customer (for example, payment details incomplete)
+                console.log(error.message);
+            } else {
+                // Your customer will be redirected to your `return_url`. For some payment
+                // methods like iDEAL, your customer will be redirected to an intermediate
+                // site first to authorize the payment, then redirected to the `return_url`.
+
+                /* axios.post('{{ route('carts.delete') }}', { */
+
+                /*     }) */
+                /*     .then(function (response) { */
+                /*         console.log(response); */
+                /*     }) */
+                /*     .catch(function (error) { */
+                /*         console.log(error); */
+                /*     }); */
             }
-          });
-
-          if (error) {
-            // Show error to your customer (for example, payment details incomplete)
-            console.log(error.message);
-          } else {
-            // Your customer will be redirected to your `return_url`. For some payment
-            // methods like iDEAL, your customer will be redirected to an intermediate
-            // site first to authorize the payment, then redirected to the `return_url`.
-          }
         });
     </script>
 

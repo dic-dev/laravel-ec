@@ -47,12 +47,4 @@ class PaymentController extends Controller
 
         return view('payment.checkout', $data);
     }
-
-    public function pay (Request $request) {
-        $payment = $request->user()->pay(
-            $request->get('amount')
-        );
-
-        return $payment->client_secret;
-    }
 }

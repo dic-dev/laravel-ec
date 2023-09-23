@@ -102,6 +102,7 @@ class CartController extends Controller
      */
     public function delete(Request $request)
     {
+        logger('aaaaa');
         $user_id = $request->user()->id;
         Cart::where('user_id', $user_id)
             ->delete();
