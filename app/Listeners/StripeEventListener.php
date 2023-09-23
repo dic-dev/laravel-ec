@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Bill;
 use App\Models\Order;
+use App\Models\Cart;
 
 class StripeEventListener
 {
@@ -30,6 +31,9 @@ class StripeEventListener
             $metadata = $event->payload['data']['object']['metadata'];
             $user_id = $metadata['user_id'];
             $products = json_decode($metadata['products'], true);
+
+            Cart::where('user_id', $user_id)
+                ->delete();
 
             $bill_id = Bill::create([
                 'user_id' => $user_id,

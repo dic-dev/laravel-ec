@@ -47,4 +47,8 @@ class PaymentController extends Controller
 
         return view('payment.checkout', $data);
     }
+
+    public function success (Request $request) {
+        return redirect()->route('payment.thanks');
+    }
 }

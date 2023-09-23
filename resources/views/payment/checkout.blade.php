@@ -43,7 +43,7 @@
                 <div id="payment-element"></div>
 
                 <div class="flex justify-end w-full sm:max-w-2xl">
-                    <x-primary-button type="button" id="payment-button" data-secret="{{ $intent->client_secret }}" class="sm:max-w-md mt-6 px-6 py-4">支払う</x-primary-button>
+                    <x-primary-button type="submit" id="payment-button" data-secret="{{ $intent->client_secret }}" class="sm:max-w-md mt-6 px-6 py-4">支払う</x-primary-button>
                 </div>
             </form>
         </div>
@@ -73,7 +73,7 @@
 
         const form = document.getElementById('payment-form');
 
-        form.addEventListener('click', async (event) => {
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const {error} = await stripe.confirmPayment({
@@ -90,16 +90,6 @@
                 // Your customer will be redirected to your `return_url`. For some payment
                 // methods like iDEAL, your customer will be redirected to an intermediate
                 // site first to authorize the payment, then redirected to the `return_url`.
-
-                /* axios.post('{{ route('carts.delete') }}', { */
-
-                /*     }) */
-                /*     .then(function (response) { */
-                /*         console.log(response); */
-                /*     }) */
-                /*     .catch(function (error) { */
-                /*         console.log(error); */
-                /*     }); */
             }
         });
     </script>

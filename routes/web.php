@@ -41,9 +41,11 @@ Route::prefix('payment')->name('payment.')->group(function () {
             ->name('create');
         Route::post('/store', [PaymentController::class, 'store'])
             ->name('store');
-        Route::get('/success', function () {
-            return view('payment.success');
-        })->name('success');
+        Route::get('/success', [PaymentController::class, 'success'])
+            ->name('success');
+        Route::get('thanks', function () {
+            return view('payment.thanks');
+        })->name('thanks');
     });
 });
 
