@@ -1,4 +1,5 @@
 {
+  "register": "会員登録",
   "login": "ログイン",
   "logout": "ログアウト",
   "Name": "お名前",
@@ -10,5 +11,7 @@
   "City": "市区町村",
   "Address Line 1": "字名・番地",
   "Address Line 2": "建物等",
-  "Tel": "電話番号"
+  "Tel": "電話番号",
+  "search": "検索",
+  "cart": "カート"
 }

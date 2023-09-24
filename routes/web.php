@@ -25,11 +25,21 @@ Route::get('/', [ProductController::class, 'index'])->name('top');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/cart', [CartController::class, 'show'])->name('carts.show');
-Route::post('/carts/store', [CartController::class, 'store'])->name('carts.store');
-Route::post('/carts/update', [CartController::class, 'update'])->name('carts.update');
-Route::post('/carts/delete', [CartController::class, 'delete'])->name('carts.delete');
-Route::post('/carts/destroy', [CartController::class, 'destroy'])->name('carts.destroy');
+/* Route::get('/cart', [CartController::class, 'show'])->name('carts.show'); */
+/* Route::post('/carts/store', [CartController::class, 'store'])->name('carts.store'); */
+/* Route::post('/carts/update', [CartController::class, 'update'])->name('carts.update'); */
+/* Route::post('/carts/delete', [CartController::class, 'delete'])->name('carts.delete'); */
+/* Route::post('/carts/destroy', [CartController::class, 'destroy'])->name('carts.destroy'); */
+
+Route::group(['prefix' => 'cart', 'as' => 'carts.'], function() {
+    Route::middleware('auth')->group(function () {
+        Route::get('/', [CartController::class, 'show'])->name('show');
+        Route::post('/store', [CartController::class, 'store'])->name('store');
+        Route::post('/update', [CartController::class, 'update'])->name('update');
+        Route::post('/delete', [CartController::class, 'delete'])->name('delete');
+        Route::post('/destroy', [CartController::class, 'destroy'])->name('destroy');
+    });
+});
 
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::middleware('auth')->group(function () {
