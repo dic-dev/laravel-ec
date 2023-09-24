@@ -3,29 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Bill;
+use App\Models\Contact;
+use App\Http\Requests\ContactCreateRequest;
 
-class BillController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->is('admin/*')) {
-            $bills = Bill::paginate('20');
-            $data = ['bills' => $bills];
+        $contacts = Contact::paginate('20');
 
-            return view('admin.bills.index', $data);
-        }
+        $data = ['contacts' => $contacts];
 
-        $user_id = $request->user()->id;
-        $bills = Bill::where('user_id', $user_id)
-            ->paginate('20');
-
-        $data = ['bills' => $bills];
-
-        return view('bills.index', $data);
+        return view('admin.contacts.index', $data);
     }
 
     /**
@@ -33,7 +25,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        //
+        return view('contacts.create');
     }
 
     /**
@@ -41,21 +33,28 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $name = $request->name;
+        $email = $request->email;
+        $content = $request->content;
+
+        Contact::create([
+            'name' => $name,
+            'email' => $email,
+            'content' => $content
+
+        ]);
+
+        return redirect()->route('contacts.thanks');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Bill $bill)
+    public function show(Contact $contact)
     {
-        $data = ['bill' => $bill];
+        $data = ['contact' => $contact];
 
-        if ($request->is('admin/*')) {
-            return view('admin.bills.show', $data);
-        }
-
-        return view('bills.show', $data);
+        return view('admin.contacts.show', $data);
     }
 
     /**

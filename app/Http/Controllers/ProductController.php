@@ -49,7 +49,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
         $this->validate($request, [
             'category_id' => 'required',
             'maker_id' => 'required',
@@ -127,5 +126,7 @@ class ProductController extends Controller
     {
         $id = $product->id;
         Product::destroy($id);
+
+        return redirect()->route('admin.products.index');
     }
 }

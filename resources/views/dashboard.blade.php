@@ -5,18 +5,14 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-                <ul class="p-6 text-gray-900">
-                    <li><a href="{{ route('products.index') }}">商品一覧</a></li>
-                    <li><a href="{{ route('profile.edit') }}">会員情報の変更</a></li>
-                    <li><a href="#">お問い合わせ</a></li>
-                </ul>
-            </div>
+    <div class="min-h-screen flex flex-col gap-4 sm:justify-center items-center py-6 sm:pt-0 bg-gray-100">
+        <div class="flex flex-col items-center w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <ul class="text-gray-900">
+                <li><a href="{{ route('products.index') }}">商品一覧</a></li>
+                <li><a href="{{ route('bills.index') }}">購入履歴</a></li>
+                <li><a href="{{ route('profile.edit') }}">会員情報の変更</a></li>
+                <li><a href="{{ route('contacts.create') }}">お問い合わせ</a></li>
+            </ul>
         </div>
     </div>
 </x-app-layout>

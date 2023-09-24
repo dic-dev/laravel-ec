@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BillController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,21 @@ Route::group(['prefix' => 'cart', 'as' => 'carts.'], function() {
         Route::post('/update', [CartController::class, 'update'])->name('update');
         Route::post('/delete', [CartController::class, 'delete'])->name('delete');
         Route::post('/destroy', [CartController::class, 'destroy'])->name('destroy');
+    });
+});
+
+Route::group(['prefix' => 'contact', 'as' => 'contacts.'], function() {
+    Route::get('/', [ContactController::class, 'create'])->name('create');
+    Route::post('/store', [ContactController::class, 'store'])->name('store');
+    Route::get('/thanks', function () {
+        return view('contacts.thanks');
+    })->name('thanks');
+});
+
+Route::group(['prefix' => 'bills', 'as' => 'bills.'], function() {
+    Route::middleware('auth')->group(function () {
+        Route::get('/', [BillController::class, 'index'])->name('index');
+        Route::get('/{bill}', [BillController::class, 'show'])->name('show');
     });
 });
 
@@ -121,6 +138,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             ->name('users.edit');
         Route::post('/users/destroy/{user}', [UserController::class, 'destroy'])
             ->name('users.destroy');
+
+        Route::get('/bills', [BillController::class, 'index'])
+            ->name('bills.index');
+        Route::get('/bills/{bill}', [BillController::class, 'show'])
+            ->name('bills.show');
+
+        Route::get('/contact', [ContactController::class, 'index'])
+            ->name('contacts.index');
+        Route::get('/contacts/{contact}', [ContactController::class, 'show'])
+            ->name('contacts.show');
     });
 });
 

@@ -135,7 +135,7 @@
                 <!-- Modal body -->
                 <div class="p-6 space-y-6">
                     <div class="flex justify-center items-center">
-                        <form action="/" method="get" class="mt-3 space-y-1 flex flex-col">
+                        <form action="{{ route('products.index') }}" method="get" class="mt-3 space-y-1 flex flex-col">
                             <ul>
                                 <li>キーワード</li>
                                 <li class="p-2">
